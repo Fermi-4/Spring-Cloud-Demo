@@ -1,0 +1,10 @@
+package com.fermi4.springcloud.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@RequestMapping("/ticket")
+public class TicketServiceRestController {
+	
+	
+	
+}

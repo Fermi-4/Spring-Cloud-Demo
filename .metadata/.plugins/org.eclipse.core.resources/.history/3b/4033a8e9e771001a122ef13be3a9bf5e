@@ -1,0 +1,10 @@
+package com.fermi4.springcloud.restclient;
+
+import org.springframework.cloud.openfeign.FeignClient;
+
+import com.fermi4.springcloud.model.Coupon;
+
+@FeignClient
+public interface CouponClient {
+	Coupon getCoupon(String code);
+}

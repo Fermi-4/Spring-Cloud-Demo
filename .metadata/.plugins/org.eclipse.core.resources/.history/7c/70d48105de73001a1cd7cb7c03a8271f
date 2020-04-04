@@ -1,0 +1,17 @@
+
+server.port=8081
+
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+spring.jpa.open-in-view=true
+
+spring.application.name=product-service
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+
+management.endpoints.web.exposure.include=hysterix.stream
+
+# ZIPKIN
+spring.zipkin.base-url=http://localhost:9411/
+
+# Probability of trace tracking.. how many traces to send? all? 1 all 0 none
+spring.sleuth.sampler.probability=1

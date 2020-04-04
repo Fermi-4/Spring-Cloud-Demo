@@ -1,0 +1,36 @@
+package com.fermi4.springcloud;
+
+import java.math.BigDecimal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.fermi4.springcloud.models.TicketPrice;
+import com.fermi4.springcloud.repo.TicketPriceRepository;
+
+@SpringBootApplication
+public class PriceServiceApplication implements CommandLineRunner {
+
+	@Autowired
+	TicketPriceRepository _repo;
+	
+	public static void main(String[] args) {
+		SpringApplication.run(PriceServiceApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		// populate ticket repository with predefined types...
+		
+		
+		//bus ticket
+		TicketPrice busTicket = new TicketPrice();
+		busTicket.setPrice(BigDecimal.valueOf(10.50));
+		busTicket.setType("bus");
+		
+		
+	}
+
+}

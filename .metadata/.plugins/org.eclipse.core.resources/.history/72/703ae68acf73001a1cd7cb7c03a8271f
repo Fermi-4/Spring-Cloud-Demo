@@ -1,0 +1,39 @@
+package com.fermi4.springcloud.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fermi4.springcloud.model.Coupon;
+import com.fermi4.springcloud.model.Product;
+import com.fermi4.springcloud.repo.ProductRepository;
+import com.fermi4.springcloud.restclient.CouponClient;
+
+@RequestMapping("/products")
+@RestController
+public class ProductRestController {
+
+	@Autowired
+	ProductRepository _repo;
+	
+	@Autowired
+	CouponClient couponClient;
+	
+	@PostMapping("/create")
+	public Product createProduct(@RequestBody Product product) {
+		Coupon coupon = couponClient.getCoupon(product.getCouponCode());
+		product.setPrice(product.getPrice().subtract(coupon.getDiscount()));
+		return _repo.save(product);
+	}
+	
+	/*
+	 * fallback method - method signature has to be the same as the target endpoint
+	 */
+	public Product sendErrorResponse(Product product) {
+		// return the sent product back
+		return product;
+	}
+	
+}

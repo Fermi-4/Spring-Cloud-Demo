@@ -1,0 +1,5 @@
+package com.fermi4.springcloud.filter;
+
+public class CustomFilter {
+
+}

@@ -1,0 +1,52 @@
+package com.fermi4.springcloud.controllers;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fermi4.springcloud.model.Coupon;
+import com.fermi4.springcloud.model.Product;
+import com.fermi4.springcloud.repo.ProductRepository;
+import com.fermi4.springcloud.restclient.CouponClient;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+
+@RequestMapping("/products")
+@RestController
+public class ProductRestController {
+
+	@Autowired
+	ProductRepository _repo;
+	
+	// Feign Client impl
+	@Autowired
+	CouponClient couponClient;
+	
+	@Value("${custom.property}")
+	private String customValue;
+	
+	@HystrixCommand(fallbackMethod = "sendErrorResponse")
+	@PostMapping("/create")
+	public Product createProduct(@RequestBody Product product) {
+		Coupon coupon = couponClient.getCoupon(product.getCouponCode());
+		product.setPrice(product.getPrice().subtract(coupon.getDiscount()));
+		return _repo.save(product);
+	}
+	
+	@GetMapping("/custom")
+	public String getCustomValue() {
+		return customValue;
+	}
+	
+	/*
+	 * fallback method - method signature has to be the same as the target endpoint
+	 */
+	public Product sendErrorResponse(Product product) {
+		// return the sent product back
+		return product;
+	}
+	
+}

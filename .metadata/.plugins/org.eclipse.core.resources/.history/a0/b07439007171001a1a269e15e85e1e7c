@@ -1,0 +1,5 @@
+package com.fermi4.springcloud.models;
+
+public class TicketPrice {
+
+}

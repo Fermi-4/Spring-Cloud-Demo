@@ -1,0 +1,4 @@
+
+# we use bootstrap.properties when using spring cloud config
+spring.application.name=product-service
+spring.cloud.config.uri=http://localhost:8888
